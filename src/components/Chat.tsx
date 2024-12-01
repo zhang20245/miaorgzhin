@@ -45,7 +45,7 @@ export function Chat() {
 
       // 创建包含历史消息的对话上下文
       const conversationHistory = [...messages, newMessage].slice(-10); // 只保留最近10条消息以避免超出token限制
-      
+
       const response = await fetch('https://api.fireworks.ai/inference/v1/chat/completions', {
         method: 'POST',
         headers: {
@@ -61,7 +61,7 @@ export function Chat() {
           presence_penalty: 0,
           frequency_penalty: 0,
           temperature: 0.6,
-          messages: [newMessage],
+          messages: conversationHistory, // 发送完整的对话历史
           stream: false
         })
       });
@@ -109,7 +109,7 @@ export function Chat() {
                 你好！我是喵哥
               </h2>
               <p className="text-gray-500 mb-4 animate-slide-in">
-                让我们开始对话吧！
+                让我们开始对话吧！我能记住上下文，可以进行连续对话。
               </p>
               <div className="flex justify-center gap-4">
                 <Link
