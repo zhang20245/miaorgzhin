@@ -2,8 +2,4 @@
 
 喵哥人工智能聊天助手，一个有趣的聊天助手
 
-To run the devserver:
-```
-npm install
-npm run dev
-```
+你可以直接通过Vercel,直接部署本应用
