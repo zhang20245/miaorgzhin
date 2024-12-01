@@ -43,6 +43,9 @@ export function Chat() {
     try {
       if (!API_KEY) throw new Error('API_KEY_MISSING');
 
+      // 创建包含历史消息的对话上下文
+      const conversationHistory = [...messages, newMessage].slice(-10); // 只保留最近10条消息以避免超出token限制
+      
       const response = await fetch('https://api.fireworks.ai/inference/v1/chat/completions', {
         method: 'POST',
         headers: {
