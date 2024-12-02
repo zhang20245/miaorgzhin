@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+/* Default markdown content styles */
+.markdown-content {
+  @apply prose prose-sm max-w-none prose-pre:bg-gray-200 prose-pre:my-0;
+}
+
+/* Light theme for user messages */
+.markdown-content-light {
+  @apply prose prose-sm max-w-none prose-invert prose-pre:bg-blue-400 prose-pre:my-0;
+}
+
+/* Animation for error shake */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Code syntax highlighting */
+pre code.hljs {
+  @apply block overflow-x-auto p-4;
+  background: none !important;
+}
+
+.hljs-comment,
+.hljs-quote {
+  @apply text-gray-500;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-addition {
+  @apply text-purple-600;
+}
+
+.hljs-number,
+.hljs-string,
+.hljs-meta .hljs-meta-string,
+.hljs-literal,
+.hljs-doctag,
+.hljs-regexp {
+  @apply text-green-600;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  @apply text-blue-600;
+}
+
+.hljs-attribute,
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-class .hljs-title,
+.hljs-type {
+  @apply text-orange-600;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-subst,
+.hljs-meta,
+.hljs-meta .hljs-keyword,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-link {
+  @apply text-blue-600;
+}
+
+.hljs-built_in,
+.hljs-deletion {
+  @apply text-red-600;
+}
+
+.hljs-formula {
+  @apply bg-gray-100;
+}
+
+.hljs-emphasis {
+  @apply italic;
+}
+
+.hljs-strong {
+  @apply font-bold;
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 640px) {
+  .prose {
+    @apply text-sm;
+  }
+  
+  .prose pre {
+    @apply text-xs;
+  }
+  
+  .prose h1 {
+    @apply text-xl;
+  }
+  
+  .prose h2 {
+    @apply text-lg;
+  }
+}
