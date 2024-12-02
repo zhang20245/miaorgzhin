@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
 import rehypeHighlight from 'rehype-highlight';
-import { Components } from 'react-markdown/lib/ast-to-react';
+import type { Components } from 'react-markdown';
 import { ReactNode } from 'react';
 
 interface ChatMessageProps {
