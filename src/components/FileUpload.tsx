@@ -1,5 +1,5 @@
 import { useState, useRef, DragEvent } from 'react';
-import { Upload, X, File as FileIcon, AlertCircle, Image } from 'lucide-react';
+import { X, File as FileIcon, AlertCircle, Image } from 'lucide-react';
 import { FileStatus } from '../types/files';
 
 interface FileUploadProps {
