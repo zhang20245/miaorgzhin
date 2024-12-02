@@ -1,10 +1,6 @@
-## MeowAI, by Srcbook
+## MeowAI, by 喵哥
 
-This app was created using https://srcbook.com.
-Need help or want to join the community? Join our [Discord](https://discord.gg/shDEGBSe2d).
+喵哥聊天助手，一个有趣的AI聊天
 
-To run the devserver:
-```
-npm install
-npm run dev
-```
+你可以直接通过vercel部署
+
