@@ -15,6 +15,23 @@ export function Register({ onClose }: RegisterProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+
+    if (name.length < 2) {
+      setError('昵称至少需要2个字符');
+      return;
+    }
+
+    if (!email.includes('@')) {
+      setError('请输入有效的邮箱地址');
+      return;
+    }
+
+    if (password.length < 6) {
+      setError('密码长度至少为6位');
+      return;
+    }
+
     try {
       await register(email, password, name);
       onClose();
@@ -24,8 +41,8 @@ export function Register({ onClose }: RegisterProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 relative animate-fade-in">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" onClick={onClose}>
+      <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 relative animate-fade-in" onClick={e => e.stopPropagation()}>
         <button
           onClick={onClose}
           className="absolute right-4 top-4 text-gray-400 hover:text-gray-600"
@@ -37,7 +54,7 @@ export function Register({ onClose }: RegisterProps) {
         
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="bg-red-50 text-red-500 p-3 rounded-lg text-sm">
+            <div className="bg-red-50 text-red-500 p-3 rounded-lg text-sm animate-shake">
               {error}
             </div>
           )}
@@ -52,6 +69,8 @@ export function Register({ onClose }: RegisterProps) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="请输入昵称"
+              minLength={2}
             />
           </div>
           
@@ -65,6 +84,7 @@ export function Register({ onClose }: RegisterProps) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="请输入邮箱"
             />
           </div>
 
@@ -78,6 +98,8 @@ export function Register({ onClose }: RegisterProps) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="请输入密码"
+              minLength={6}
             />
           </div>
 

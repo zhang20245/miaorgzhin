@@ -1,33 +1,32 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css';
+import { Header } from './components/Header';
 import { Chat } from './components/Chat';
 import { Vercel } from './components/Vercel';
 import { Deploy } from './components/Deploy';
-import { Cat } from 'lucide-react';
+import { Build } from './components/Build';
 import { AuthProvider } from './context/AuthContext';
-import { AuthButtons } from './components/AuthButtons';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <div className="min-h-screen flex flex-col bg-white">
-          <header className="border-b p-4 flex items-center justify-between">
-            <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <Cat className="w-8 h-8 text-blue-500" />
-              <h1 className="text-xl font-bold">喵哥 AI</h1>
-            </Link>
-            <AuthButtons />
-          </header>
-
-          <Routes>
-            <Route path="/" element={<Chat />} />
-            <Route path="/vercel" element={<Vercel />} />
-            <Route path="/github" element={<Deploy />} />
-          </Routes>
-        </div>
-      </Router>
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <Router>
+          <div className="min-h-screen flex flex-col bg-white">
+            <Header />
+            <main className="flex-1">
+              <Routes>
+                <Route path="/" element={<Chat />} />
+                <Route path="/vercel" element={<Vercel />} />
+                <Route path="/github" element={<Deploy />} />
+                <Route path="/build" element={<Build />} />
+              </Routes>
+            </main>
+          </div>
+        </Router>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 
