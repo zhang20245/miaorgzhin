@@ -1,3 +1,4 @@
+import React from 'react';
 import { Message } from '../types/api';
 import { Bot, User, AlertCircle } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -5,50 +6,73 @@ import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
 import rehypeHighlight from 'rehype-highlight';
 import type { Components } from 'react-markdown';
-import { ReactNode, ComponentPropsWithoutRef, FC } from 'react';
 
 interface ChatMessageProps {
   message: Message;
 }
 
-interface CodeComponentProps extends ComponentPropsWithoutRef<'code'> {
+interface CodeComponentProps extends React.ComponentPropsWithoutRef<'code'> {
   inline?: boolean;
   className?: string;
-  [key: string]: any;
 }
 
-// Use more specific type definitions
-type CommonProps = React.HTMLAttributes<HTMLElement> & {
-  children?: ReactNode;
-};
-
-type AnchorProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-  children?: ReactNode;
-};
-
-export function ChatMessage({ message }: ChatMessageProps) {
+export const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   const isUser = message.role === 'user';
 
   const markdownComponents: Components = {
     code: ({ node: _, inline, className, children, ...props }: CodeComponentProps) => {
-      // Rest of the code remains the same
+      const match = /language-(\w+)/.exec(className || '');
+      return !inline && match ? (
+        <div className="my-2 animate-fade-in">
+          <code
+            className={`block p-2 rounded-lg overflow-x-auto transition-all duration-200 hover:shadow-md ${
+              isUser ? 'bg-blue-400' : 'bg-gray-200'
+            } ${match ? `language-${match[1]}` : ''}`}
+            {...props}
+          >
+            {String(children).replace(/\n$/, '')}
+          </code>
+        </div>
+      ) : (
+        <code
+          className={`px-1 py-0.5 rounded transition-all duration-200 hover:scale-105 ${
+            isUser ? 'bg-blue-400' : 'bg-gray-200'
+          }`}
+          {...props}
+        >
+          {children}
+        </code>
+      );
     },
-
-    p: (props: CommonProps) => (
-      <p className="my-2 animate-fade-in" {...props}>
-        {props.children}
-      </p>
-    ),
-
-    h1: (props: CommonProps) => (
-      <h1 className="text-2xl font-bold my-4 animate-slide-in" {...props}>
-        {props.children}
-      </h1>
-    ),
-
-    // Similar changes for h2, h3, ul, ol, li, a, blockquote, table, th, td
-    // Use the refined CommonProps or AnchorProps as appropriate
+    // Rest of the markdownComponents remain the same
   };
 
-  // Rest of the component remains the same
-}
+  return (
+    <div 
+      className={`flex gap-3 ${isUser ? 'flex-row-reverse' : ''} animate-pop`}
+    >
+      <div 
+        className={`w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 
+          ${isUser ? 'animate-slide-in-left' : 'animate-slide-in-right'}
+          hover:scale-110 transition-transform duration-200`}
+      >
+        {isUser ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5 animate-float" />}
+      </div>
+      <div
+        className={`max-w-[80%] rounded-2xl px-4 py-2 transform transition-all duration-300 
+          hover:scale-[1.01] hover:shadow-lg
+          ${isUser
+            ? 'bg-blue-500 text-white rounded-br-none markdown-content-light animate-slide-in-left'
+            : 'bg-gray-100 text-gray-800 rounded-bl-none markdown-content animate-slide-in-right'
+          }`}
+      >
+        <ReactMarkdown
+          rehypePlugins={[rehypeRaw, rehypeSanitize, rehypeHighlight]}
+          components={markdownComponents}
+        >
+          {message.content}
+        </ReactMarkdown>
+      </div>
+    </div>
+  );
+};
